@@ -25,7 +25,7 @@ pub struct TableData {
     pub name: String,
     pub success_count: u64,
     pub failed_count: u64,
-    pub success_rate: u64,
+    pub success_rate: f64,
     pub response_time: i64,
     pub block_number: i64,
 }

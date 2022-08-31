@@ -80,11 +80,16 @@ async fn get_data(rpc_vec: &mut Vec<JsonRpc>, request_count: &mut u64) {
         } else {
             item.failed_count += 1;
         }
+
+        let mut success_rate: f64 = 100.0;
+        if item.failed_count > 0 {
+            success_rate = item.success_count as f64 / (*request_count + 1) as f64 * 100.0;
+        }
         table_data.push(TableData {
             name: item.name.clone(),
             success_count: item.success_count,
             failed_count: item.failed_count,
-            success_rate: 100,
+            success_rate,
             response_time,
             block_number,
         })
@@ -102,25 +107,36 @@ fn show_table(table_data: &Vec<TableData>, request_count: &mut u64) {
         Alignment::CENTER,
     )
     .with_hspan(6)]));
+
     table.add_row(row![
         "RPC Name",
         "Request Total Count",
         "Request Success Count",
         "Request Failed Count",
         "Success Rate",
-        "Response Time (ms)",
+        "Response Time",
         "Latest Block Number",
     ]);
 
     for item in table_data {
+        let mut response_time = format!("{:?}ms", item.response_time);
+        if item.response_time == 0 {
+            response_time = "--".to_string();
+        }
+
+        let mut block_number = item.block_number.to_string();
+        if item.block_number == 0 {
+            block_number = "--".to_string();
+        }
+
         table.add_row(row![
             item.name,
             request_count,
             item.success_count,
             item.failed_count,
             format!("{:?}%", item.success_rate),
-            item.response_time,
-            item.block_number,
+            response_time,
+            block_number,
         ]);
     }
 
