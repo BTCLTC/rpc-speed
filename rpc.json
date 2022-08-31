@@ -1,0 +1,14 @@
+[
+  {
+    "name": "EOS.EVM",
+    "rpc": "https://api.testnet-dev.trust.one",
+    "success_count": 0,
+    "failed_count": 0
+  },
+  {
+    "name": "Milkomeda",
+    "rpc": "https://rpc-mainnet-cardano-evm.c1.milkomeda.com",
+    "success_count": 0,
+    "failed_count": 0
+  }
+]
